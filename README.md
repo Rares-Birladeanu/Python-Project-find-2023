@@ -53,21 +53,21 @@ python find.py [start_directory] [expression] { [ > / >> output_file] }
 ### Exemple de utilizare
 
 ```bash
-python find.py myDirectory -name file.txt
+python find.py . -name file.txt
 ```
-Cauta fisiere si directoare cu numele `file.txt` incepand de la director myDirectory.
+Cauta fisiere si directoare cu numele `file.txt` incepand de la directorul curent.
 
 ```bash
-python find.py myDirectory -name file.txt > output.txt
+python find.py . -name file.txt > output.txt
 ```
-Cauta fisiere si directoare cu numele `file.txt` si redirecteaza rezultatele in fisierul `output.txt` incepand de la director myDirectory.
+Cauta fisiere si directoare cu numele `file.txt` si redirecteaza rezultatele in fisierul `output.txt` incepand de la directorul curent.
 
 ```bash
-python find.py myDirectory -name file.txt -type f
+python find.py myDirectory -name file.txt -ctime 100
 ```
-Cauta doar fisiere cu numele `file.txt` in directorul curent incepand de la director myDirectory.
+Cauta fisiere si directoare cu numele `file.txt` care au fost create mai tarziu de 100 de secunde incepand de la directorul myDirectory.
 
 ```bash
-python find.py myDirectory -name file.txt -type f -size +100
+python find.py . -name *.txt -mtime 100 -size m100 -type f
 ```
-Cauta doar fisiere cu numele `file.txt` cu dimensiunea mai mare de 100 bytes incepand de la director myDirectory.
+Cauta doar fisiere cu numele `*.txt` cu dimensiunea mai mare de 100 bytes care au fost modificate mai tarziu de 100 de secunde incepand de la directorul curent.

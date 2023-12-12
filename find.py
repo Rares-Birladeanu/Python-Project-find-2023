@@ -30,13 +30,49 @@ def parse_arguments(args):
 
 
 def findByName(path, file_name_pattern):
-    if fnmatch.fnmatch(path, file_name_pattern):
+
+    fileName = os.path.basename(path)
+
+    if fnmatch.fnmatch(fileName, file_name_pattern):
         return path
     else:
         return None
 
 
+def findBySizeFile(path, file_size):
+    size = os.path.getsize(path)
+    if file_size.startswith("m"):
+        if size > int(file_size[1:]):
+            return path
+    elif file_size.startswith("l"):
+        if size < int(file_size[1:]):
+            return path
+    elif file_size.startswith("e"):
+        if size == int(file_size[1:]):
+            return path
+
+
+def findBySizeDir(path, file_size):
+    size = 0
+    for dir_path, dir_names, filenames in os.walk(path):
+        for file in filenames:
+            size += os.path.getsize(os.path.join(dir_path, file))
+    if file_size.startswith("m"):
+        if size > int(file_size[1:]):
+            return path
+    elif file_size.startswith("l"):
+        if size < int(file_size[1:]):
+            return path
+    elif file_size.startswith("e"):
+        if size == int(file_size[1:]):
+            return path
+
+
 def findBySize(path, file_size):
+    # Check if path exists
+    if not os.path.exists(path):
+        print("Error: Invalid path")
+        sys.exit(1)
 
     if os.path.isdir(path):
         size = 0
@@ -53,20 +89,17 @@ def findBySize(path, file_size):
             if size == int(file_size[1:]):
                 return path
 
-    elif os.path.isfile(path):
-        size = os.path.getsize(path)
-        if file_size.startswith("m"):
-            if size > int(file_size[1:]):
-                return path
-        elif file_size.startswith("l"):
-            if size < int(file_size[1:]):
-                return path
-        elif file_size.startswith("e"):
-            if size == int(file_size[1:]):
-                return path
-    else:
-        print("Error: Invalid file size")
-        sys.exit(1)
+        else:
+            size = os.path.getsize(path)
+            if file_size.startswith("m"):
+                if size > int(file_size[1:]):
+                    return path
+            elif file_size.startswith("l"):
+                if size < int(file_size[1:]):
+                    return path
+            elif file_size.startswith("e"):
+                if size == int(file_size[1:]):
+                    return path
 
 
 def findByTimeCreated(path, file_time):
@@ -121,7 +154,6 @@ def find(input):
                     elif file_type == 'd':
                         for dir in dir_names:
                             output.append(os.path.join(dir_path, dir))
-
                 elif option == "-name":
                     file_name_pattern = arguments[options.index(option)]
                     for file in filenames:
@@ -129,19 +161,19 @@ def find(input):
                         if findByName(file_path, file_name_pattern) is not None:
                             output.append(file_path)
                     for dir in dir_names:
-                        dir_path = os.path.join(dir_path, dir)
-                        if findByName(dir_path, file_name_pattern) is not None:
-                            output.append(dir_path)
+                        dirr_path = os.path.join(dir_path, dir)
+                        if findByName(dirr_path, file_name_pattern) is not None:
+                            output.append(dirr_path)
 
                 elif option == "-size":
                     file_size = arguments[options.index(option)]
                     for file in filenames:
                         file_path = os.path.join(dir_path, file)
-                        if findBySize(file_path, file_size) is not None:
+                        if findBySizeFile(file_path, file_size) is not None:
                             output.append(file_path)
                     for dir in dir_names:
                         dir_path = os.path.join(dir_path, dir)
-                        if findBySize(dir_path, file_size) is not None:
+                        if findBySizeDir(dir_path, file_size) is not None:
                             output.append(dir_path)
 
                 elif option == "-ctime":
