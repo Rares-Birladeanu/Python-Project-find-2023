@@ -5,7 +5,11 @@ import time
 
 
 def parse_arguments(args):
-    path = args[1]
+    if args[1] == ".":
+        path = os.getcwd()
+    else:
+        path = args[1]
+
     options = []
     arguments = []
     output_location = None
@@ -25,14 +29,6 @@ def parse_arguments(args):
     return path, options, arguments, output_location
 
 
-def findDirectories(root):
-    directories = []
-    for dir_path, dir_names, filenames in os.walk(root):
-        for dir in dir_names:
-            directories.append(os.path.join(dir_path, dir))
-    return directories
-
-
 def findByName(path, file_name_pattern):
     if fnmatch.fnmatch(path, file_name_pattern):
         return path
@@ -41,15 +37,33 @@ def findByName(path, file_name_pattern):
 
 
 def findBySize(path, file_size):
-    if file_size.startswith("+"):
-        if os.path.getsize(path) > int(file_size[1:]):
-            return path
-    elif file_size.startswith("-"):
-        if os.path.getsize(path) < int(file_size[1:]):
-            return path
-    elif file_size.startswith("="):
-        if os.path.getsize(path) == int(file_size[1:]):
-            return path
+
+    if os.path.isdir(path):
+        size = 0
+        for dir_path, dir_names, filenames in os.walk(path):
+            for file in filenames:
+                size += os.path.getsize(os.path.join(dir_path, file))
+        if file_size.startswith("m"):
+            if size > int(file_size[1:]):
+                return path
+        elif file_size.startswith("l"):
+            if size < int(file_size[1:]):
+                return path
+        elif file_size.startswith("e"):
+            if size == int(file_size[1:]):
+                return path
+
+    elif os.path.isfile(path):
+        size = os.path.getsize(path)
+        if file_size.startswith("m"):
+            if size > int(file_size[1:]):
+                return path
+        elif file_size.startswith("l"):
+            if size < int(file_size[1:]):
+                return path
+        elif file_size.startswith("e"):
+            if size == int(file_size[1:]):
+                return path
     else:
         print("Error: Invalid file size")
         sys.exit(1)
@@ -114,6 +128,10 @@ def find(input):
                         file_path = os.path.join(dir_path, file)
                         if findByName(file_path, file_name_pattern) is not None:
                             output.append(file_path)
+                    for dir in dir_names:
+                        dir_path = os.path.join(dir_path, dir)
+                        if findByName(dir_path, file_name_pattern) is not None:
+                            output.append(dir_path)
 
                 elif option == "-size":
                     file_size = arguments[options.index(option)]
@@ -121,6 +139,10 @@ def find(input):
                         file_path = os.path.join(dir_path, file)
                         if findBySize(file_path, file_size) is not None:
                             output.append(file_path)
+                    for dir in dir_names:
+                        dir_path = os.path.join(dir_path, dir)
+                        if findBySize(dir_path, file_size) is not None:
+                            output.append(dir_path)
 
                 elif option == "-ctime":
                     file_time = arguments[options.index(option)]
@@ -128,6 +150,10 @@ def find(input):
                         file_path = os.path.join(dir_path, file)
                         if findByTimeCreated(file_path, file_time) is not None:
                             output.append(file_path)
+                    for dir in dir_names:
+                        dir_path = os.path.join(dir_path, dir)
+                        if findByTimeCreated(dir_path, file_time) is not None:
+                            output.append(dir_path)
 
                 elif option == "-mtime":
                     file_time = arguments[options.index(option)]
@@ -135,6 +161,10 @@ def find(input):
                         file_path = os.path.join(dir_path, file)
                         if findByTimeModified(file_path, file_time) is not None:
                             output.append(file_path)
+                    for dir in dir_names:
+                        dir_path = os.path.join(dir_path, dir)
+                        if findByTimeModified(dir_path, file_time) is not None:
+                            output.append(dir_path)
 
                 elif option == "-atime":
                     file_time = arguments[options.index(option)]
@@ -142,6 +172,10 @@ def find(input):
                         file_path = os.path.join(dir_path, file)
                         if findByTimeAccessed(file_path, file_time) is not None:
                             output.append(file_path)
+                    for dir in dir_names:
+                        dir_path = os.path.join(dir_path, dir)
+                        if findByTimeAccessed(dir_path, file_time) is not None:
+                            output.append(dir_path)
                 else:
                     raise Exception("Invalid option")
 
