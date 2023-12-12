@@ -40,9 +40,9 @@ python find.py [start_directory] [expression] { [ > / >> output_file] }
     - `f` - fisier
     - `d` - director
 - `-size` - cauta fisiere si directoare dupa dimensiune
-    - `+n` - dimensiunea mai mare decat n
-    - `-n` - dimensiunea mai mica decat n
-    - `=n` - dimensiunea egala cu n
+    - `mn` - dimensiunea mai mare decat n
+    - `ln` - dimensiunea mai mica decat n
+    - `en` - dimensiunea egala cu n
 - `-ctime` - cauta fisiere si directoare dupa timpul de creare
     - `n` - daca timpul de creare este mai vechi de n secunde
 - `-mtime` - cauta fisiere si directoare dupa timpul de modificare
