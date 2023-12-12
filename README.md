@@ -25,7 +25,7 @@ Implementați un script care implementează funcționalitatea comenzii “find�
 python find.py [start_directory] [expression] { [ > / >> output_file] }
 ```
 
- - `start_directory` - directorul de unde incepe cautarea
+ - `start_directory` - directorul de unde incepe cautarea `.` pentru directorul curent sau `start_directory` pentru un director specificat
  - `expression` - expresia de cautare de forma `-option argument`
  - `output_file` - fisierul de output
  - `>` - suprascrie fisierul de output
