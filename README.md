@@ -1,6 +1,6 @@
-# File Searcher 
+# File Searcher
 
-## Enunt 
+## Enunt
 Implementați un script care implementează funcționalitatea comenzii “find” din linux.
 
 ## Overview
@@ -10,7 +10,7 @@ Implementați un script care implementează funcționalitatea comenzii “find�
 ## Features
 
 - **Criterii de cautarer:** Cauta fisiere si directoare in functie de diferite criterii, precum numele, tipul, dimensiunea si timpul de creare, modificare si accesare.
-  
+
 - **Output:** Afiseaza rezultatele cautarii in consola sau le redirectioneaza catre un fisier de output fie prin suprascriere fie prin concatenare.
 
 - **Cautare recursiva:** Cauta fisiere si directoare recursiv, incepand de la un director specificat.
@@ -25,30 +25,30 @@ Implementați un script care implementează funcționalitatea comenzii “find�
 python find.py [start_directory] [expression] { [ > / >> output_file] }
 ```
 
- - `start_directory` - directorul de unde incepe cautarea `.` pentru directorul curent sau `start_directory` pentru un director specificat
- - `expression` - expresia de cautare de forma `-option argument`
- - `output_file` - fisierul de output
- - `>` - suprascrie fisierul de output
- - `>>` - concateneaza la fisierul de output
+- `start_directory` - directorul de unde incepe cautarea `.` pentru directorul curent sau `start_directory` pentru un director specificat
+- `expression` - expresia de cautare de forma `-option argument`
+- `output_file` - fisierul de output
+- `>` - suprascrie fisierul de output
+- `>>` - concateneaza la fisierul de output
 
 ### Options
 
-- `-name` - cauta fisiere si directoare dupa nume 
+- `-name` - cauta fisiere si directoare dupa nume
   - poate fii numelui exact sau o expresie regulata
-  
+
 - `-type` - cauta fisiere si directoare dupa tip
-    - `f` - fisier
-    - `d` - director
+  - `f` - fisier
+  - `d` - director
 - `-size` - cauta fisiere si directoare dupa dimensiune
-    - `mn` - dimensiunea mai mare decat n
-    - `ln` - dimensiunea mai mica decat n
-    - `en` - dimensiunea egala cu n
+  - `mn` - dimensiunea mai mare decat n
+  - `ln` - dimensiunea mai mica decat n
+  - `en` - dimensiunea egala cu n
 - `-ctime` - cauta fisiere si directoare dupa timpul de creare
-    - `n` - daca timpul de creare este mai vechi de n secunde
+  - `n` - daca timpul de creare este mai vechi de n secunde
 - `-mtime` - cauta fisiere si directoare dupa timpul de modificare
-    - `n` - daca timpul de modificare este mai vechi de n secunde
+  - `n` - daca timpul de modificare este mai vechi de n secunde
 - `-atime` - cauta fisiere si directoare dupa timpul de accesare
-    - `n` - daca timpul de accesare este mai vechi de n secunde
+  - `n` - daca timpul de accesare este mai vechi de n secunde
 
 ### Exemple de utilizare
 

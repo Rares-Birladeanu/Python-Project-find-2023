@@ -194,9 +194,11 @@ def find(args):
             if output_location.endswith("!"):
                 with open(output_location[:-1], "w") as f:
                     f.write("\n".join(output))
+                    f.write("\n")
             else:
                 with open(output_location, "a") as f:
                     f.write("\n".join(output))
+                    f.write("\n")
         else:
             print("\n".join(output))
 
